@@ -9,3 +9,24 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model Images {
+  id Int @id @default(autoincrement())
+  category String
+  album Album @relation(fields: [albumId], references: [id])
+  albumId Int 
+  image String
+  taken_date String
+  place String
+}
+
+model Album {
+  id Int @id @default(autoincrement())
+  album String @unique
+  images Images[]
+  title String?
+  section1 String?
+  section2 String?
+  section3 String?
+  section4 String?
+}

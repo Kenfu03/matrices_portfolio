@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import Image from "next/image";
 
 const page = () => {
   return (
-    <div>Main App</div>
-  )
-}
+    <div>
+      <h1>Some Tittle</h1>
+    </div>
+  );
+};
 
-export default page
+export default page;
