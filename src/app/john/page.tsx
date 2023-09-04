@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import styles from "./page.module.css";
 
 const AlbumForm = () => {
   const [albumName, setAlbumName] = useState<string>();
@@ -73,53 +74,73 @@ const ImagesForm = () => {
   const [place, setPlace] = useState<string>();
 
   return (
-    <div><h2>Category</h2>
-    <input
-      type="text"
-      value={category}
-      onChange={(e) => setCategory(e.target.value)}
-    />
-    <h2>ALbum</h2>
-    <select onChange={(e) => setAlbumId(Number(e.target.value))}>
-      {example.map((album) => 
-      <option value={album.id}>{album.name}</option>
-      )}
-    </select>
-    <h2>Image Link</h2>
-    <input
-      type="text"
-      value={imageLink}
-      onChange={(e) => setImageLink(e.target.value)}
-    />
-    <h2>Taken Date</h2>
-    <input
-      type="text"
-      value={takenDate}
-      onChange={(e) => setTakenDate(e.target.value)}
-    />
-    <h2>Taken place</h2>
-    <input
-      type="text"
-      value={place}
-      onChange={(e) => setPlace(e.target.value)}
-    />
-    <div>
-      ImagePreview
-      {imageLink && <Image src={imageLink} alt="Image Link nor working" fill></Image>}
-    </div>
-    <h2>{albumId}</h2>
-    </div>
+    <>
+      <form>
+        <h2>Category</h2>
+        <input
+          type="text"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        />
+        <h2>Album</h2>
+        <select onChange={(e) => setAlbumId(Number(e.target.value))}>
+          {example.map((album) => (
+            <option value={album.id}>{album.name}</option>
+          ))}
+        </select>
+        <h2>File name</h2>
+        <input
+          type="text"
+          value={imageLink}
+          onChange={(e) => setImageLink(e.target.value)}
+        />
+        <h2>Taken Date</h2>
+        <input
+          type="text"
+          value={takenDate}
+          onChange={(e) => setTakenDate(e.target.value)}
+        />
+        <h2>Taken place</h2>
+        <input
+          type="text"
+          value={place}
+          onChange={(e) => setPlace(e.target.value)}
+        />
+      </form>
+      <div>
+        <h1>Image Preview</h1>
+        {imageLink && <Image src={"https://storage.googleapis.com/images_matrices/"+imageLink} alt="Loading image..." width={500} height={250}/>}
+      </div>
+    </>
   );
 };
 
 const ImagesView = () => {
-  return <div>See images</div>;
+  const example: ExampleTypes[] = [
+    { name: "ManuAntu", id: 1 },
+    { name: "FondaVela", id: 2 },
+    { name: "Sky", id: 3 },
+    { name: "Comida", id: 4 },
+  ];
+
+  const [albumId, setAlbumId] = useState<number>();
+
+  return (
+    <div>
+      <h2>Select Album</h2>
+      <select onChange={(e) => setAlbumId(Number(e.target.value))}>
+        {example.map((album) => (
+          <option value={album.id}>{album.name}</option>
+        ))}
+      </select>
+    </div>
+  );
 };
 
 const page = () => {
   const [addAlbum, setAddAlbum] = useState(false);
   const [addImages, setAddImages] = useState(false);
-  const [seeImages, setSeeImages] = useState(false);
+  const [seeImages, setSeeImages] = useState(true);
 
   const handleFormChange = (formName: string) => {
     setAddAlbum(false);
@@ -135,18 +156,24 @@ const page = () => {
   };
 
   return (
-    <div>
-      <h1>Admin Page</h1>
-      <div className="admin-options">
-        <button onClick={() => handleFormChange("album")}>Add Album</button>
-        <button onClick={() => handleFormChange("images")}>Add Images</button>
-        <button onClick={() => handleFormChange("see")}>
-          See Images by Album
-        </button>
+    <div className={styles.principalContainer}>
+      <header>
+        <h1>Admin Page</h1>
+      </header>
+      <div className={styles.adminOptions}>
+        <div className={styles.menu}>
+          <button onClick={() => handleFormChange("album")}>Add Album</button>
+          <button onClick={() => handleFormChange("images")}>Add Images</button>
+          <button onClick={() => handleFormChange("see")}>
+            See Images by Album
+          </button>
+        </div>
+        <div className={styles.formContainer}>
+          {addAlbum && <AlbumForm />}
+          {addImages && <ImagesForm />}
+          {seeImages && <ImagesView />}
+        </div>
       </div>
-      {addAlbum && <AlbumForm />}
-      {addImages && <ImagesForm />}
-      {seeImages && <ImagesView />}
     </div>
   );
 };
