@@ -35,6 +35,11 @@
     margin-bottom: 5px;
 }
 
+.formContainer h1{
+    text-align: center;
+    margin: 20px 0;
+}
+
 .formContainer input {
     padding: 10px;
     outline: none;

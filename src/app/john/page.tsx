@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
+import { truncate } from "fs/promises";
 
 const AlbumForm = () => {
   const [albumName, setAlbumName] = useState<string>();
