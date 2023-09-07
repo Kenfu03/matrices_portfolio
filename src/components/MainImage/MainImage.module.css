@@ -1,0 +1,27 @@
+.imageContainer {
+    width: 100%;
+    max-width: 1920px;
+    position: relative;
+    color: white;
+    height: 100vh;
+}
+
+.textContainer {
+    position: absolute;
+    top: 35%;
+    left: 100px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.textContainer h1{
+    color: white;
+    font-size: 60px;
+}
+
+.textContainer p {
+    color: white;
+    font-size: 18px;
+    margin-top: 30px;
+}

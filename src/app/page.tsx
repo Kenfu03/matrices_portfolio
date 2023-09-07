@@ -1,11 +1,12 @@
 import React from "react";
 import Image from "next/image";
-import Navbar from "@/Components";
+import { Navbar, MainImage } from "@/components";
 
 const page = () => {
   return (
     <div>
       <Navbar/>
+      <MainImage/>
     </div>
   );
 };

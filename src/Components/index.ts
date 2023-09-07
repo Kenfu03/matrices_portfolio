@@ -1,4 +1,4 @@
-import Navbar from "./Navbar/Navbar";
-import Footer from "./Footer/Footer";
+export {Navbar} from "./Navbar/Navbar";
+export {Footer} from "./Footer/Footer";
+export {MainImage} from "./MainImage/MainImage";
 
-export default Navbar; Footer;
