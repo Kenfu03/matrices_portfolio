@@ -1,0 +1,12 @@
+.imagesContainer {
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr; 
+    grid-template-rows: 1fr 1fr 1fr; 
+    gap: 0px 0px;
+    margin: 20px;
+}
+
+.imageDiv {
+    position: relative;
+    height: 75vh;
+}

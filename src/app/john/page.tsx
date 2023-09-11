@@ -3,54 +3,35 @@
 import { useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-import { truncate } from "fs/promises";
+import { useImages } from "@/context/ImagesContext";
 
 const AlbumForm = () => {
-  const [albumName, setAlbumName] = useState<string>();
-  const [albumTitle, setAlbumTitle] = useState<string>();
-  const [albumSection1, setAlbumSection1] = useState<string>();
-  const [albumSection2, setAlbumSection2] = useState<string>();
-  const [albumSection3, setAlbumSection3] = useState<string>();
-  const [albumSection4, setAlbumSection4] = useState<string>();
+  const [album, setAlbum] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [section1, setSection1] = useState<string>("");
+  const [section2, setSection2] = useState<string>("");
+  const [section3, setSection3] = useState<string>("");
+  const [section4, setSection4] = useState<string>("");
 
   return (
-    <form>
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
+      }}
+    >
       <h2>Album name</h2>
-      <input
-        type="text"
-        value={albumName}
-        onChange={(e) => setAlbumName(e.target.value)}
-      />
+      <input type="text" onChange={(e) => setAlbum(e.target.value)} />
       <h2>Album Title</h2>
-      <input
-        type="text"
-        value={albumTitle}
-        onChange={(e) => setAlbumTitle(e.target.value)}
-      />
+      <input type="text" onChange={(e) => setTitle(e.target.value)} />
       <h2>Album section 1</h2>
-      <input
-        type="text"
-        value={albumSection1}
-        onChange={(e) => setAlbumSection1(e.target.value)}
-      />
+      <input type="text" onChange={(e) => setSection1(e.target.value)} />
       <h2>Album section 2</h2>
-      <input
-        type="text"
-        value={albumSection2}
-        onChange={(e) => setAlbumSection2(e.target.value)}
-      />
+      <input type="text" onChange={(e) => setSection2(e.target.value)} />
       <h2>Album section 3</h2>
-      <input
-        type="text"
-        value={albumSection3}
-        onChange={(e) => setAlbumSection3(e.target.value)}
-      />
+      <input type="text" onChange={(e) => setSection3(e.target.value)} />
       <h2>Album section 4</h2>
-      <input
-        type="text"
-        value={albumSection4}
-        onChange={(e) => setAlbumSection4(e.target.value)}
-      />
+      <input type="text" onChange={(e) => setSection4(e.target.value)} />
+      <button>Save Album</button>
     </form>
   );
 };
@@ -68,21 +49,30 @@ const ImagesForm = () => {
     { name: "Comida", id: 4 },
   ];
 
-  const [category, setCategory] = useState<string>();
-  const [albumId, setAlbumId] = useState<number>();
-  const [imageLink, setImageLink] = useState<string>();
-  const [takenDate, setTakenDate] = useState<string>();
-  const [place, setPlace] = useState<string>();
+  const [category, setCategory] = useState<string>("");
+  const [albumId, setAlbumId] = useState<number>(0);
+  const [image, setImage] = useState<string>("");
+  const [taken_date, setTaken_date] = useState<string>("");
+  const [place, setPlace] = useState<string>("");
+
+  const { createImage } = useImages();
 
   return (
     <>
-      <form>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          await createImage({
+            category,
+            albumId,
+            image,
+            taken_date,
+            place,
+          });
+        }}
+      >
         <h2>Category</h2>
-        <input
-          type="text"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        />
+        <input type="text" onChange={(e) => setCategory(e.target.value)} />
         <h2>Album</h2>
         <select onChange={(e) => setAlbumId(Number(e.target.value))}>
           {example.map((album) => (
@@ -90,27 +80,23 @@ const ImagesForm = () => {
           ))}
         </select>
         <h2>File name</h2>
-        <input
-          type="text"
-          value={imageLink}
-          onChange={(e) => setImageLink(e.target.value)}
-        />
+        <input type="text" onChange={(e) => setImage(e.target.value)} />
         <h2>Taken Date</h2>
-        <input
-          type="text"
-          value={takenDate}
-          onChange={(e) => setTakenDate(e.target.value)}
-        />
+        <input type="text" onChange={(e) => setTaken_date(e.target.value)} />
         <h2>Taken place</h2>
-        <input
-          type="text"
-          value={place}
-          onChange={(e) => setPlace(e.target.value)}
-        />
+        <input type="text" onChange={(e) => setPlace(e.target.value)} />
+        <button>Save Image</button>
       </form>
       <div>
         <h1>Image Preview</h1>
-        {imageLink && <Image src={"https://storage.googleapis.com/images_matrices/"+imageLink} alt="Loading image..." width={500} height={250}/>}
+        {image && (
+          <Image
+            src={"https://storage.googleapis.com/images_matrices/" + image}
+            alt="Loading image..."
+            width={500}
+            height={250}
+          />
+        )}
       </div>
     </>
   );
@@ -131,7 +117,9 @@ const ImagesView = () => {
       <h2>Select Album</h2>
       <select onChange={(e) => setAlbumId(Number(e.target.value))}>
         {example.map((album) => (
-          <option value={album.id}>{album.name}</option>
+          <option key={album.id} value={album.id}>
+            {album.name}
+          </option>
         ))}
       </select>
     </div>
